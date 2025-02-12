@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-
 class NoteItem extends StatelessWidget {
   const NoteItem({super.key});
 
@@ -25,7 +24,7 @@ class NoteItem extends StatelessWidget {
             subtitle: const Text(
               'build your career with Hossam',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 color: Color(0xff836743),
               ),
             ),
@@ -33,7 +32,7 @@ class NoteItem extends StatelessWidget {
               offset: Offset(12, -30),
               child: IconButton(
                 onPressed: () {},
-                icon:const Icon(FontAwesomeIcons.trash, color: Colors.black),
+                icon: const Icon(FontAwesomeIcons.trash, color: Colors.black),
               ),
             ),
           ),
