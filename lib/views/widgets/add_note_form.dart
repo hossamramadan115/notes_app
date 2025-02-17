@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/cubits/cubit/add_note_cubit.dart';
+import 'package:intl/intl.dart';
+import 'package:notes_app/cubits/add_note_cubit/add_note_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/widgets/custom_button.dart';
 import 'package:notes_app/views/widgets/custom_text_field.dart';
@@ -43,23 +44,36 @@ class _AddNoteFormState extends State<AddNoteForm> {
             hintText: 'content',
           ),
           const SizedBox(height: 70),
-          CustomButton(
-            onTap: () {
-              if (formKey.currentState!.validate()) {
-                formKey.currentState!.save();
-              } else {
-                autovalidateMode = AutovalidateMode.always;
-                setState(() {});
-              }
+          BlocBuilder<AddNoteCubit, AddNoteState>(
+            builder: (context, state) {
+              return CustomButton(
+                isLoading: state is AddNoteLoading ? true : false,
+                onTap: () {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
 
-              var noteModel = NoteModel(
-                  title: title!,
-                  subTitle: subTitle!,
-                  date: DateTime.now().toString(),
-                  color: Colors.blueAccent.value);
-              BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
+                    // افحص القيم قبل إنشاء النموذج
+                    if (title != null && subTitle != null) {
+                      var noteModel = NoteModel(
+                        title: title!,
+                        subTitle: subTitle!,
+                        date: DateFormat('dd/MM/yyyy')
+                            .format(DateTime.now()), // هذا لو كان date نصيًا
+                        color: Colors.blueAccent.value,
+                      );
+
+                      BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
+                    } else {
+                      print("Title or Subtitle is null!");
+                    }
+                  } else {
+                    autovalidateMode = AutovalidateMode.always;
+                    setState(() {});
+                  }
+                },
+                text: 'Add',
+              );
             },
-            text: 'Add',
           ),
           const SizedBox(height: 25),
         ],
