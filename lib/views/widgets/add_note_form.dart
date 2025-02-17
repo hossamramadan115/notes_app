@@ -52,14 +52,13 @@ class _AddNoteFormState extends State<AddNoteForm> {
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
 
-                    // افحص القيم قبل إنشاء النموذج
                     if (title != null && subTitle != null) {
                       var noteModel = NoteModel(
                         title: title!,
                         subTitle: subTitle!,
-                        date: DateFormat('dd/MM/yyyy')
-                            .format(DateTime.now()), // هذا لو كان date نصيًا
-                        color: Colors.blueAccent.value,
+                        date: DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                        color: Colors.white.value,
+                        // color: Colors.blueAccent.value,
                       );
 
                       BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
